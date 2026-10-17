@@ -32,7 +32,7 @@ An agent-based, stochastic Monte Carlo computational model designed to simulate 
 
 Income and wealth inequality dynamics are governed by non-linear interactions among labor market stratification, return-on-capital variance, baseline subsistence costs, and redistributive tax systems. 
 
-This repository implements a discrete-time, agent-based Monte Carlo engine simulating populations of economic agents over multi-year horizons. By aggregating dozens or hundreds of independent stochastic simulation paths, the framework computes mean trajectory paths and 25th–75th interquartile confidence bands for economic inequality as measured by the Gini index.
+This repository implements a discrete-time, agent-based Monte Carlo engine simulating populations of economic agents over multi-year horizons. By aggregating independent stochastic simulation paths, the framework computes mean trajectory paths and 25th–75th interquartile confidence bands for economic inequality as measured by the Gini index.
 
 ---
 
@@ -48,10 +48,14 @@ The economy samples agents across four primary occupational archetypes with empi
 | **Engineer** | \$120,000 | 0.03 | High stability, technical human capital |
 | **Businessman** | \$250,000 | 0.15 | High return skewness and capital volatility |
 
+---
+
 ### Stochastic Wealth Evolution
 Each agent's accumulated wealth $W_{i, t}$ evolves annually according to an income-augmented Geometric Brownian Motion (GBM) with Ito-drift correction:
 
-$$W_{i, t} = \max\left(0, \; Y_{i, \text{eff}} + W_{i, t-1} \cdot \exp\left(\sigma_i \epsilon_{i, t} - \frac{\sigma_i^2}{2}\right) - C_i\right)$$
+$$
+W_{i, t} = \max\left(0, \; Y_{i, \text{eff}} + W_{i, t-1} \cdot \exp\left(\sigma_i \epsilon_{i, t} - \frac{\sigma_i^2}{2}\right) - C_i\right)
+$$
 
 where:
 - $Y_{i, \text{eff}}$ is the net income after tax deductions.
@@ -59,6 +63,8 @@ where:
 - $\epsilon_{i, t} \sim \mathcal{N}(0, 1)$ represents idiosyncratic macroeconomic and investment shocks.
 - $C_i$ represents subsistence cost of living.
 - A non-negativity constraint $\max(0, \cdot)$ prevents negative terminal wealth (insolvency floor).
+
+---
 
 ### Cost of Living & Fiscal Policy
 Subsistence expenditures scale non-linearly with income:
@@ -72,10 +78,14 @@ When progressive taxation is activated:
 - Tier 2 (\$50k–\$100k): 25% effective tax rate ($\times 0.75$)
 - Tier 3 ($\ge \$100k$): 55% effective tax rate ($\times 0.45$)
 
+---
+
 ### Vectorized Gini Index Formulation
 The Gini coefficient is calculated at each simulation step across the wealth vector $\mathbf{w}$ sorted in ascending order ($w_1 \le w_2 \le \dots \le w_n$):
 
-$$G = \frac{\sum_{i=1}^n (2i - n - 1) w_i}{n \sum_{i=1}^n w_i}$$
+$$
+G = \frac{\sum_{i=1}^n (2i - n - 1) w_i}{n \sum_{i=1}^n w_i}
+$$
 
 The computation runs in $\mathcal{O}(n \log n)$ time using fully vectorized NumPy array operations.
 
@@ -106,7 +116,7 @@ wealth-inequality-simulation/
 
 ```bash
 # Clone the repository
-git clone https://github.com/MEsperon-Code/wealth-inequality-simulation.git
+git clone https://github.com/MDiazEsperon/wealth-inequality-simulation.git
 cd wealth-inequality-simulation
 
 # Create and activate a virtual environment (recommended)
@@ -172,5 +182,5 @@ This project is open-source under the [MIT License](LICENSE).
 ## Author
 
 **Miguel Díaz Esperón**  
-- GitHub: [@MEsperon-Code](https://github.com/MEsperon-Code)
-- Repository: [wealth-inequality-simulation](https://github.com/MEsperon-Code/wealth-inequality-simulation)
+- GitHub: [@MDiazEsperon](https://github.com/MDiazEsperon)  
+- Repository: [wealth-inequality-simulation](https://github.com/MDiazEsperon/wealth-inequality-simulation)
